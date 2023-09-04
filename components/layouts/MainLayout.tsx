@@ -2,6 +2,8 @@ import React, { ReactNode } from "react";
 import { Box, Container } from "@chakra-ui/react";
 import Head from "next/head";
 import { Router } from "next/router";
+import Navbar from "../Navbar";
+import Footer from "../Footer";
 
 interface MainLayoutProps {
   children: ReactNode;
@@ -16,8 +18,12 @@ const MainLayout = ({ children, router }: MainLayoutProps) => {
         <meta name="description" content="Github Search" />
         <title>Github Search</title>
       </Head>
+
+      <Navbar path={router.asPath} />
+
       <Container maxW="container.lg" pt={20}>
         {children}
+        <Footer />
       </Container>
     </Box>
   );
