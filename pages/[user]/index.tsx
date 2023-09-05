@@ -35,7 +35,6 @@ const User = ({ user }: UserProps) => {
   useEffect(() => {
     BACKEND.get(`/users/${user}`).then((res) => {
       setData(res.data);
-      console.log(res.data)
     });
 
     BACKEND.get(`/users/${user}/repos`).then((res) => {
@@ -69,7 +68,7 @@ const User = ({ user }: UserProps) => {
           <Flex direction={"column"} flex={1} gap={3} justifyContent={"center"}>
             <Heading fontSize={"2xl"}>{data?.name}</Heading>
             <Text fontSize={"lg"}>{`@${data?.login}`}</Text>
-            <Text fontSize={"lg"}>{`Joined ${new Date(data.created_at).toDateString()}`}</Text>
+            <Text fontSize={"lg"}>{`Joined ${new Date(data?.created_at).toDateString()}`}</Text>
           </Flex>
         </Flex>
         <Flex direction={"column"} gap={4}>

@@ -69,11 +69,13 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
       {...props}
     >
       <Container display="flex" p={2} maxW="container.lg">
-        <Flex align="center" mr={5}>
-          <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-            Github Search
-          </Heading>
-        </Flex>
+        <NextLink href="/" scroll={false}>
+            <Flex align="center" mr={5}>
+              <Heading as="h1" size="lg" letterSpacing={"tighter"}>
+                Github Search
+              </Heading>
+            </Flex>
+        </NextLink>
 
         <Stack
           direction={{ base: "column", md: "row" }}
@@ -85,7 +87,7 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
         >
           <LinkItem
             target="_blank"
-            href={`https://github.com/`}
+            href={`https://github.com/fahri-r/github-search`}
             path={path}
             display="inline-flex"
             alignItems="center"
