@@ -1,3 +1,4 @@
+import Repository from "@/entity/Repository";
 import { BACKEND } from "@/lib/api";
 import {
   Box,
@@ -10,20 +11,19 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect, useState } from "react";
 import { BiGitRepoForked, BiStar } from "react-icons/bi";
 import { BsCodeSquare } from "react-icons/bs";
 import { remark } from "remark";
 import html from "remark-html";
 
-interface UserProps {
-  user: string;
-  repo: string;
-}
-
-const User = ({ user, repo }: UserProps) => {
+const User = ({
+  user,
+  repo,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [readme, setReadme] = useState<string>();
-  const [repos, setRepos] = useState();
+  const [repos, setRepos] = useState<Repository>();
 
   useEffect(() => {
     BACKEND.get(
@@ -116,10 +116,9 @@ const User = ({ user, repo }: UserProps) => {
   );
 };
 
-User.getInitialProps = async ({ query }) => {
-  const { user, repo } = query;
-
-  return { user, repo };
+export const getServerSideProps: GetServerSideProps<any> = async (context) => {
+  const { user, repo } = context.query;
+  return { props: { user, repo } };
 };
 
 export default User;

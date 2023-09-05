@@ -1,35 +1,31 @@
+import Repository from "@/entity/Repository";
+import User from "@/entity/User";
 import { BACKEND } from "@/lib/api";
 import {
   Box,
   Button,
-  Container,
   Flex,
   Grid,
   GridItem,
-  HStack,
   Heading,
   Icon,
   Image,
   LinkBox,
   LinkOverlay,
-  Show,
   SimpleGrid,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { motion } from "framer-motion";
+import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect, useState } from "react";
 import { BiGitRepoForked, BiStar } from "react-icons/bi";
 import { BsCodeSquare } from "react-icons/bs";
-import { FaBuilding, FaLink, FaLocationDot, FaTwitter } from "react-icons/fa6";
 
-interface UserProps {
-  user: string;
-}
-
-const User = ({ user }: UserProps) => {
-  const [data, setData] = useState();
-  const [repos, setRepos] = useState();
+const User = ({
+  user,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [data, setData] = useState<User>();
+  const [repos, setRepos] = useState<Repository[]>();
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -68,7 +64,11 @@ const User = ({ user }: UserProps) => {
           <Flex direction={"column"} flex={1} gap={3} justifyContent={"center"}>
             <Heading fontSize={"2xl"}>{data?.name}</Heading>
             <Text fontSize={"lg"}>{`@${data?.login}`}</Text>
-            <Text fontSize={"lg"}>{`Joined ${new Date(data?.created_at).toDateString()}`}</Text>
+            <Text fontSize={"lg"}>
+              {data?.created_at
+                ? `Joined ${new Date(data?.created_at).toDateString()}`
+                : ""}
+            </Text>
           </Flex>
         </Flex>
         <Flex direction={"column"} gap={4}>
@@ -144,7 +144,10 @@ const User = ({ user }: UserProps) => {
                     borderRadius="xl"
                     boxShadow="lg"
                   >
-                    <LinkOverlay href={`/${data.login}/${x.name}`} borderRadius="xl">
+                    <LinkOverlay
+                      href={`/${data?.login}/${x.name}`}
+                      borderRadius="xl"
+                    >
                       <Flex direction={"column"} px={8} py={4}>
                         <Text mt={2} fontSize={20}>
                           {x.name}
@@ -171,41 +174,6 @@ const User = ({ user }: UserProps) => {
                           </Flex>
                         </Flex>
                       </Flex>
-                      {/* <Grid
-                        templateRows="repeat(2, 1fr)"
-                        templateColumns="repeat(3, 1fr)"
-                        gap={4}
-                        paddingEnd={5}
-                      >
-                        <GridItem colSpan={2}>
-                          <Text mt={2} fontSize={20}>
-                            {x.name}
-                          </Text>
-                          <Text mt={2} fontSize={14}>
-                            {x.description}
-                          </Text>
-                        </GridItem>
-                        <GridItem paddingBottom={4}>
-                          <HStack h="100%" alignItems="flex-end">
-                            <BiStar />
-                            <Text mt={2} fontSize={12}>
-                              {x.stargazers_count}
-                            </Text>
-                            <BiGitRepoForked />
-                            <Text mt={2} fontSize={12}>
-                              {x.forks_count}
-                            </Text>
-                          </HStack>
-                        </GridItem>
-                        <GridItem justifySelf="end" paddingBottom={4}>
-                          <HStack h="100%" alignItems="flex-end">
-                            <BsCodeSquare />
-                            <Text mt={2} fontSize={12}>
-                              {x.language}
-                            </Text>
-                          </HStack>
-                        </GridItem>
-                      </Grid> */}
                     </LinkOverlay>
                   </LinkBox>
                 ))}
@@ -226,10 +194,9 @@ const User = ({ user }: UserProps) => {
   );
 };
 
-User.getInitialProps = async ({ query }) => {
-  const { user } = query;
-
-  return { user };
+export const getServerSideProps: GetServerSideProps<any> = async (context) => {
+  const { user } = context.query;
+  return { props: { user } };
 };
 
 export default User;
