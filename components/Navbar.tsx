@@ -68,14 +68,7 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
       zIndex={1}
       {...props}
     >
-      <Container
-        display="flex"
-        p={2}
-        maxW="container.lg"
-        // wrap="wrap"
-        // align="center"
-        // justify="space-between"
-      >
+      <Container display="flex" p={2} maxW="container.lg">
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing={"tighter"}>
             Github Search
@@ -90,9 +83,6 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
           flexGrow={1}
           mt={{ base: 4, md: 0 }}
         >
-          <LinkItem href="/works" path={path}>
-            Works
-          </LinkItem>
           <LinkItem
             target="_blank"
             href={`https://github.com/`}
@@ -107,10 +97,8 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
           </LinkItem>
         </Stack>
 
-        <Box display={{base:"flex", md:"block"}} flex={1} w={"full"} justifyContent={"end"} >
-          <Flex justifyContent={{base:"unset", md:"end"}} w={"fit-content"} >
-            <ThemeButton />
-          </Flex>
+        <Box display={"flex"} flex={1} w={"full"} justifyContent={"end"}>
+          <ThemeButton />
 
           <Box ml={2} display={{ base: "inline-block", md: "none" }}>
             <Menu isLazy id="navbar-menu">
@@ -122,10 +110,7 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
               />
               <MenuList>
                 <NextLink href="/" passHref>
-                  <MenuItem as={Link}>About</MenuItem>
-                </NextLink>
-                <NextLink href="/works" passHref>
-                  <MenuItem as={Link}>Works</MenuItem>
+                  <MenuItem as={Link}>Home</MenuItem>
                 </NextLink>
                 <MenuItem as={Link} href={`https://github.com/`}>
                   View Source

@@ -19,13 +19,16 @@ const Home = () => {
   const [data, setData] = useState();
 
   const handleSubmit = () => {
-    BACKEND.get("/search/users", {
-      params: {
-        q: username,
-      },
-    }).then((res) => {
-      setData(res.data);
-    });
+    setData(undefined);
+    if (username) {
+      BACKEND.get("/search/users", {
+        params: {
+          q: username,
+        },
+      }).then((res) => {
+        setData(res.data);
+      });
+    }
   };
 
   const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,10 +57,18 @@ const Home = () => {
           </Button>
         </InputRightElement>
       </InputGroup>
-      <Grid templateColumns={"repeat(3, 1fr)"} gap={10} w="full">
+      <Grid
+        templateColumns={{
+          sm: "unset",
+          md: "repeat(2, 1fr)",
+          xl: "repeat(3, 1fr)",
+        }}
+        gap={10}
+        w="full"
+      >
         {data?.total_count > 0 &&
-          data.items.map((x) => (
-            <GridItem w={"full"}>
+          data.items.map((x, i) => (
+            <GridItem w={"full"} key={i}>
               <LinkBox
                 p={8}
                 bgColor="whiteAlpha.100"
@@ -89,32 +100,6 @@ const Home = () => {
                     alt={x.login}
                   />
                   <Heading fontSize={"lg"}>{x.login}</Heading>
-                  {/* <SimpleGrid columns={3} w="full">
-                  <Flex direction={"column"} gap={0.5}>
-                    <Heading textAlign={"center"} fontSize={"sm"}>
-                      Followers
-                    </Heading>
-                    <Text fontSize={"2xl"} textAlign={"center"}>
-                      57
-                    </Text>
-                  </Flex>
-                  <Flex direction={"column"} gap={0.5}>
-                    <Heading textAlign={"center"} fontSize={"sm"}>
-                      Followers
-                    </Heading>
-                    <Text fontSize={"2xl"} textAlign={"center"}>
-                      57
-                    </Text>
-                  </Flex>
-                  <Flex direction={"column"} gap={0.5}>
-                    <Heading textAlign={"center"} fontSize={"sm"}>
-                      Followers
-                    </Heading>
-                    <Text fontSize={"2xl"} textAlign={"center"}>
-                      57
-                    </Text>
-                  </Flex>
-                </SimpleGrid> */}
                 </LinkOverlay>
               </LinkBox>
             </GridItem>
