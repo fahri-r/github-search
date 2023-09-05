@@ -78,7 +78,7 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
       >
         <Flex align="center" mr={5}>
           <Heading as="h1" size="lg" letterSpacing={"tighter"}>
-            TES
+            Github Search
           </Heading>
         </Flex>
 
@@ -107,11 +107,10 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
           </LinkItem>
         </Stack>
 
-        <Box
-          flex={1}
-          // align="right"
-        >
-          <ThemeButton />
+        <Box flex={1}>
+          <Flex justifyContent={"end"}>
+            <ThemeButton />
+          </Flex>
 
           <Box ml={2} display={{ base: "inline-block", md: "none" }}>
             <Menu isLazy id="navbar-menu">

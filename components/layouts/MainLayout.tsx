@@ -12,7 +12,7 @@ interface MainLayoutProps {
 
 const MainLayout = ({ children, router }: MainLayoutProps) => {
   return (
-    <Box as="main" pb={8}>
+    <Box as="main">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="Github Search" />
@@ -21,7 +21,15 @@ const MainLayout = ({ children, router }: MainLayoutProps) => {
 
       <Navbar path={router.asPath} />
 
-      <Container maxW="container.lg" pt={20}>
+      <Container
+        display={"flex"}
+        maxW="container.lg"
+        flexDirection={"column"}
+        pt={20}
+        minH={"100vh"}
+        justifyContent={"space-between"}
+        pb={8}
+      >
         {children}
         <Footer />
       </Container>
