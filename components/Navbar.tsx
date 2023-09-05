@@ -107,8 +107,8 @@ const Navbar = ({ path, ...props }: NavbarProps) => {
           </LinkItem>
         </Stack>
 
-        <Box flex={1}>
-          <Flex justifyContent={"end"}>
+        <Box display={{base:"flex", md:"block"}} flex={1} w={"full"} justifyContent={"end"} >
+          <Flex justifyContent={{base:"unset", md:"end"}} w={"fit-content"} >
             <ThemeButton />
           </Flex>
 
