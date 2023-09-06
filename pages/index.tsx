@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { BACKEND } from "@/lib/api";
 import SearchResult from "@/entity/SearchResult";
+import UserCard from "@/components/UserCard";
 
 const Home = () => {
   const [username, setUsername] = useState("");
@@ -70,39 +71,7 @@ const Home = () => {
       >
         {data?.items.map((x, i) => (
           <GridItem w={"full"} key={i}>
-            <LinkBox
-              p={8}
-              bgColor="whiteAlpha.100"
-              border="1px"
-              borderColor="#ffffff00"
-              _hover={{
-                bgColor: "whiteAlpha.300",
-                border: "1px",
-                borderColor: "white",
-                cursor: "pointer",
-              }}
-              _focus={{
-                border: "0px",
-              }}
-              borderRadius="xl"
-              boxShadow="lg"
-            >
-              <LinkOverlay
-                href={`/${x.login}`}
-                display={"flex"}
-                flexDirection={"column"}
-                alignItems={"center"}
-                gap={6}
-              >
-                <Image
-                  borderRadius="full"
-                  boxSize="150px"
-                  src={x.avatar_url}
-                  alt={x.login}
-                />
-                <Heading fontSize={"lg"}>{x.login}</Heading>
-              </LinkOverlay>
-            </LinkBox>
+            <UserCard username={x.login} avatar_url={x.avatar_url} />
           </GridItem>
         ))}
       </Grid>

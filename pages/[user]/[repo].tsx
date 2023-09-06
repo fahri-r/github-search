@@ -17,6 +17,8 @@ import { BiGitRepoForked, BiStar } from "react-icons/bi";
 import { BsCodeSquare } from "react-icons/bs";
 import { remark } from "remark";
 import html from "remark-html";
+import NextLink from "next/link";
+import RepositoryCard from "@/components/RepositoryCard";
 
 const User = ({
   user,
@@ -44,54 +46,17 @@ const User = ({
   }, []);
 
   return (
-    <>
-      <LinkBox
-        textAlign={"justify"}
-        cursor="pointer"
-        bgColor="whiteAlpha.100"
-        border="1px"
-        borderColor="#ffffff00"
-        _hover={{
-          bgColor: "whiteAlpha.300",
-          border: "1px",
-          borderColor: "white",
-        }}
-        _focus={{
-          border: "0px",
-        }}
-        borderRadius="xl"
-        boxShadow="lg"
-        mb={8}
-      >
-        <LinkOverlay href={`${repos?.svn_url}`} borderRadius="xl">
-          <Flex direction={"column"} px={8} py={4}>
-            <Text mt={2} fontSize={20}>
-              {repos?.name}
-            </Text>
-            <Text mt={2} fontSize={14} h={20} noOfLines={3}>
-              {repos?.description}
-            </Text>
-            <Flex justifyContent={"space-between"}>
-              <Flex alignItems={"center"} gap={2}>
-                <Text mt={2} fontSize={12}>
-                  <Icon as={BiStar} mr={1.5} />
-                  {repos?.stargazers_count}
-                </Text>
-                <Text mt={2} fontSize={12}>
-                  <Icon as={BiGitRepoForked} mr={1.5} />
-                  {repos?.forks_count}
-                </Text>
-              </Flex>
-              <Flex>
-                <Text mt={2} fontSize={12}>
-                  <Icon as={BsCodeSquare} mr={1.5} />
-                  {repos?.language}
-                </Text>
-              </Flex>
-            </Flex>
-          </Flex>
-        </LinkOverlay>
-      </LinkBox>
+    <Box>
+      {repos && (
+        <RepositoryCard
+          username={user}
+          title={repos.name}
+          description={repos.description}
+          stargazers_count={repos.stargazers_count}
+          forks_count={repos.forks_count}
+          language={repos.language}
+        />
+      )}
       {readme && (
         <>
           <Box
@@ -100,6 +65,7 @@ const User = ({
             animate={{ y: 0, opacity: 1 }}
             transition={"0.8s linear"}
             mb={6}
+            mt={8}
           >
             <Heading as="h3" variant="section-title">
               Readme
@@ -112,7 +78,7 @@ const User = ({
           </Box>
         </>
       )}
-    </>
+    </Box>
   );
 };
 

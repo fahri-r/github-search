@@ -20,6 +20,8 @@ import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useEffect, useState } from "react";
 import { BiGitRepoForked, BiStar } from "react-icons/bi";
 import { BsCodeSquare } from "react-icons/bs";
+import NextLink from "next/link";
+import RepositoryCard from "@/components/RepositoryCard";
 
 const User = ({
   user,
@@ -86,31 +88,33 @@ const User = ({
               textAlign={"center"}
               borderRight={{ base: "unset", lg: "1px solid" }}
             >
-              <Text fontWeight={"bold"}>Followers</Text>
-              <Text>57</Text>
+              <Text fontWeight={"bold"}>Repos</Text>
+              <Text>{data?.public_repos}</Text>
             </GridItem>
             <GridItem
               textAlign={"center"}
               borderRight={{ base: "unset", lg: "1px solid" }}
             >
               <Text fontWeight={"bold"}>Followers</Text>
-              <Text>57</Text>
+              <Text>{data?.followers}</Text>
             </GridItem>
             <GridItem
               textAlign={"center"}
               borderRight={{ base: "unset", lg: "1px solid" }}
             >
-              <Text fontWeight={"bold"}>Followers</Text>
-              <Text>57</Text>
+              <Text fontWeight={"bold"}>Following</Text>
+              <Text>{data?.following}</Text>
             </GridItem>
             <GridItem textAlign={"center"}>
-              <Text fontWeight={"bold"}>Followers</Text>
-              <Text>57</Text>
+              <Text fontWeight={"bold"}>Stars</Text>
+              <Text>
+                {repos?.reduce((a, b) => +a + +b.stargazers_count, 0)}
+              </Text>
             </GridItem>
           </Grid>
         </Flex>
       </Flex>
-      {repos && (
+      {repos && repos.length > 0 && (
         <>
           <Box
             as={motion.div}
@@ -123,60 +127,20 @@ const User = ({
               Repositories
             </Heading>
             <SimpleGrid gap={5} columns={{ base: 1, lg: 2 }}>
-              {repos
-                .slice((page - 1) * 10, (page - 1) * 10 + 10)
-                .map((x, i) => (
-                  <LinkBox
-                    key={i}
-                    textAlign={"justify"}
-                    cursor="pointer"
-                    bgColor="whiteAlpha.100"
-                    border="1px"
-                    borderColor="#ffffff00"
-                    _hover={{
-                      bgColor: "whiteAlpha.300",
-                      border: "1px",
-                      borderColor: "white",
-                    }}
-                    _focus={{
-                      border: "0px",
-                    }}
-                    borderRadius="xl"
-                    boxShadow="lg"
-                  >
-                    <LinkOverlay
-                      href={`/${data?.login}/${x.name}`}
-                      borderRadius="xl"
-                    >
-                      <Flex direction={"column"} px={8} py={4}>
-                        <Text mt={2} fontSize={20}>
-                          {x.name}
-                        </Text>
-                        <Text mt={2} fontSize={14} h={20} noOfLines={3}>
-                          {x.description}
-                        </Text>
-                        <Flex justifyContent={"space-between"}>
-                          <Flex alignItems={"center"} gap={2}>
-                            <Text mt={2} fontSize={12}>
-                              <Icon as={BiStar} mr={1.5} />
-                              {x.stargazers_count}
-                            </Text>
-                            <Text mt={2} fontSize={12}>
-                              <Icon as={BiGitRepoForked} mr={1.5} />
-                              {x.forks_count}
-                            </Text>
-                          </Flex>
-                          <Flex>
-                            <Text mt={2} fontSize={12}>
-                              <Icon as={BsCodeSquare} mr={1.5} />
-                              {x.language}
-                            </Text>
-                          </Flex>
-                        </Flex>
-                      </Flex>
-                    </LinkOverlay>
-                  </LinkBox>
-                ))}
+              {data &&
+                repos
+                  .slice((page - 1) * 10, (page - 1) * 10 + 10)
+                  .map((x, i) => (
+                    <RepositoryCard
+                      key={i}
+                      username={data?.login}
+                      title={x.name}
+                      description={x.description}
+                      stargazers_count={x.stargazers_count}
+                      forks_count={x.forks_count}
+                      language={x.language}
+                    />
+                  ))}
             </SimpleGrid>
           </Box>
 
